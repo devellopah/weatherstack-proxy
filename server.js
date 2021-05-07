@@ -33,7 +33,7 @@ const limiter = new RateLimit({
 })
 
 app.get('/', (_, res) => {
-  res.send(`<span style="font-family: system-ui;">Have a nice time coding!</span>`)
+  res.send(`<span style="font-family: system-ui;">Have a nice time coding😎</span>`)
 })
 
 app.use('/api/weather', limiter, async (req, res, next) => {
