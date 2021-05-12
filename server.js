@@ -36,16 +36,17 @@ app.get('/', (_, res) => {
   res.send(`<span style="font-family: system-ui;">Have a nice time coding😎</span>`)
 })
 
-app.use('/api/weather', limiter, async (req, res, next) => {
+app.use('/api/forecast', limiter, async (req, res, next) => {
 
   const params = {
     access_key: process.env.API_KEY,
-    query: req.query.loc,
+    query: req.query.coords,
   }
 
   try {
-    const { data : { current } } = await axios.get('http://api.weatherstack.com/current', { params })
-    return res.send(current)
+    const { rateLimit: { resetTime } } = req
+    const { data : { location, current: forecast } } = await axios.get('http://api.weatherstack.com/current', { params })
+    return res.send({ location, forecast, resetTime })
 
   } catch (error) {
     console.log(error)
