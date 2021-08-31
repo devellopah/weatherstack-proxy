@@ -4,8 +4,12 @@
   "description": "Proxy server with rate limiter for weatherstack api requests",
   "main": "server.js",
   "license": "MIT",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
-    "serve": "nodemon server.js"
+    "serve": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "repository": {
