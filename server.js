@@ -16,11 +16,10 @@ app.use(favicon(path.join(process.cwd(), 'favicon.ico')))
 app.set('port', process.env.PORT || 3000)
 app.set('trust proxy', 1)
 
-const limit = 15
 // https://www.npmjs.com/package/express-rate-limit
 const limiter = new RateLimit({
-  windowMs: limit * 60 * 1000,
-  max: 10,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1,
   handler: function (req, res) {
     const { rateLimit : { resetTime } } = req
     res.status(429).json({
@@ -36,7 +35,7 @@ app.get('/', (_, res) => {
   res.send(`<span style="font-family: system-ui;">Have a nice time coding😎</span>`)
 })
 
-app.use('/api/forecast', limiter, async (req, res, next) => {
+app.get('/api/forecast', limiter, async (req, res) => {
 
   const params = {
     access_key: process.env.API_KEY,
@@ -48,9 +47,8 @@ app.use('/api/forecast', limiter, async (req, res, next) => {
     const { data : { location, current: forecast } } = await axios.get('http://api.weatherstack.com/current', { params })
     return res.send({ location, forecast, resetTime })
 
-  } catch (error) {
-    console.log(error)
-    next(error)
+  } catch (e) {
+    res.send(e)
   }
 })
 
