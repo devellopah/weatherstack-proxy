@@ -20,7 +20,7 @@ const limit = 15
 // https://www.npmjs.com/package/express-rate-limit
 const limiter = new RateLimit({
   windowMs: limit * 60 * 1000,
-  max: 1,
+  max: 10,
   handler: function (req, res) {
     const { rateLimit : { resetTime } } = req
     res.status(429).json({
