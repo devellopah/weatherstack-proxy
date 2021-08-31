@@ -38,7 +38,7 @@ app.get('/', (_, res) => {
 app.get('/api/forecast', limiter, async (req, res) => {
 
   const params = {
-    access_key: process.env.API_KEY,
+    access_key: process.env.WEATHERSTACK_API_KEY,
     query: req.query.coords,
   }
 
